@@ -1,0 +1,37 @@
+# Full Nomi stack: web app + API + Postgres in one command:
+#   docker compose up --build        -> http://localhost:3000
+# The ACE-Step inference server runs on a separate GPU host
+# (see infra/acestep_server.py); point ACESTEP_URL at it.
+services:
+  web:
+    build:
+      context: ./frontend
+      args:
+        # The origin the *browser* uses to reach the API (inlined at build).
+        NEXT_PUBLIC_API_URL: ${NOMI_PUBLIC_API_URL:-http://localhost:8000}
+    ports: ["3000:3000"]
+    depends_on: [api]
+
+  api:
+    build: ./backend
+    ports: ["8000:8000"]
+    environment:
+      NOMI_DATABASE_URL: postgresql+psycopg://nomi:nomi@db:5432/nomi
+      NOMI_GENERATION_BACKEND: ${NOMI_GENERATION_BACKEND:-mock}
+      ACESTEP_URL: ${ACESTEP_URL:-http://host.docker.internal:8001}
+      NOMI_AUDIO_DIR: /data/audio
+      NOMI_CORS_ORIGINS: ${NOMI_CORS_ORIGINS:-http://localhost:3000}
+    volumes: ["audio:/data/audio"]
+    depends_on: [db]
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: nomi
+      POSTGRES_PASSWORD: nomi
+      POSTGRES_DB: nomi
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+
+volumes:
+  audio:
+  pgdata:

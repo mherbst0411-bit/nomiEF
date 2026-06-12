@@ -1,0 +1,6 @@
+# GPU host only (ACE-Step inference server)
+fastapi==0.115.*
+uvicorn[standard]==0.34.*
+# ACE-Step (Apache-2.0): install per https://github.com/ace-step/ACE-Step-1.5
+# Pin the exact git revision before any investor demo for reproducibility:
+# pip install git+https://github.com/ace-step/ACE-Step-1.5@<pinned-sha>

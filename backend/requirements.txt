@@ -1,0 +1,9 @@
+# Nomi Music API — application dependencies
+# License policy: permissive licenses only (MIT/BSD/Apache-2.0).
+# See docs/LICENSE_MANIFEST.md. Run `pip-licenses` in CI to enforce.
+fastapi==0.115.*          # MIT
+uvicorn[standard]==0.34.* # BSD-3-Clause
+sqlalchemy==2.0.*         # MIT
+pydantic==2.*             # MIT
+httpx==0.28.*             # BSD-3-Clause
+python-multipart==0.0.*   # Apache-2.0 (uploads, Pillar 2)
