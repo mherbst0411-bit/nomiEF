@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: nomi-api
+    runtime: docker
+    rootDir: backend
+    plan: starter
+    disk:
+      name: nomi-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NOMI_DATABASE_URL
+        value: sqlite:////data/nomi.db
+      - key: NOMI_AUDIO_DIR
+        value: /data/audio
+      - key: NOMI_GENERATION_BACKEND
+        value: mock
+      - key: NOMI_CORS_ORIGINS
+        value: http://localhost:3000
